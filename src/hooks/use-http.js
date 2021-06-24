@@ -1,9 +1,8 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 
 const useHttp = (requestObj, onData) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [tasks, setTasks] = useState([]);
   
     const sendRequest = async () => {
       setIsLoading(true);
@@ -11,9 +10,9 @@ const useHttp = (requestObj, onData) => {
       try {
         const response = await fetch(
           requestObj.url, {
-              method: requestObj.method,
-              headers: requestObj.headers,
-              body: JSON.stringify(requestObj.body)
+              method: requestObj.method ? requestObj.method: 'GET' ,
+              headers: requestObj.headers ? requestObj.headers : {},
+              body: requestObj.body ? JSON.stringify(requestObj.body): null
           }
         );
   
