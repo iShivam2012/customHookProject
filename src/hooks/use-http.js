@@ -4,7 +4,7 @@ const useHttp = (requestObj, onData) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
   
-    const sendRequest = async () => {
+    const sendRequest = async (body) => {
       setIsLoading(true);
       setError(null);
       try {
@@ -12,7 +12,7 @@ const useHttp = (requestObj, onData) => {
           requestObj.url, {
               method: requestObj.method ? requestObj.method: 'GET' ,
               headers: requestObj.headers ? requestObj.headers : {},
-              body: requestObj.body ? JSON.stringify(requestObj.body): null
+              body: body ? JSON.stringify({text: body}) : null
           }
         );
   
@@ -21,7 +21,7 @@ const useHttp = (requestObj, onData) => {
         }
   
         const data = await response.json();
-        onData(data);
+        onData(data, body);
 
         } catch (err) {
         setError(err.message || "Something went wrong!");
